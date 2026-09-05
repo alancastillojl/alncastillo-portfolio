@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { Hero } from "@/components/home/Hero";
-import { ProjectGrid } from "@/components/home/ProjectGrid";
+import { PhotoBrowser } from "@/components/home/PhotoBrowser";
+import { ServicesSection } from "@/components/home/ServicesSection";
 import { getProjects } from "@/lib/notion";
 
 export const revalidate = 300;
@@ -10,10 +10,10 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
       <Suspense fallback={null}>
-        <ProjectGrid projects={projects} />
+        <PhotoBrowser projects={projects} />
       </Suspense>
+      <ServicesSection />
     </>
   );
 }

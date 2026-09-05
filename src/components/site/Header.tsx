@@ -1,48 +1,56 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
+import { InquiriesButton } from "./InquiriesButton";
+import { NegativeText } from "./NegativeText";
 
 export function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const brandClass = "block text-sm font-bold tracking-tight uppercase";
+  const projectsClass = "mt-1 block text-[11px] font-normal uppercase italic";
+  const navTextClass = "text-sm font-bold uppercase";
+
   return (
-    <header className="fixed inset-x-0 top-0 z-40 flex items-start justify-between px-6 py-8 md:px-10">
+    <header className="sticky inset-x-0 top-0 z-40 flex items-start justify-between px-6 py-8 md:px-10">
       <div>
-        <Link
-          href="/"
-          className="block text-sm font-bold tracking-tight uppercase"
-        >
-          {siteConfig.name}
+        <Link href="/" className={brandClass}>
+          {isHome ? (
+            <NegativeText className={brandClass}>{siteConfig.name}</NegativeText>
+          ) : (
+            siteConfig.name
+          )}
         </Link>
         <Link
-          href="/#trabajo"
-          className="mt-1 block font-serif text-sm italic text-foreground/80 transition-colors hover:text-foreground"
+          href="/#services"
+          className={`${projectsClass} transition-opacity hover:opacity-70 ${
+            isHome ? "" : "text-foreground/80 hover:text-foreground"
+          }`}
         >
-          Proyectos
+          {isHome ? (
+            <NegativeText className={projectsClass}>Services</NegativeText>
+          ) : (
+            "Services"
+          )}
         </Link>
       </div>
 
-      <nav className="text-right">
-        <div className="flex items-center gap-4 text-sm font-bold uppercase">
-          <Link
-            href="/?cat=Product+Photography#trabajo"
-            className="transition-colors hover:opacity-60"
-          >
-            Product Photography
-          </Link>
-          <span aria-hidden className="opacity-40">
-            /
-          </span>
-          <Link
-            href="/?cat=Retouch#trabajo"
-            className="transition-colors hover:opacity-60"
-          >
-            Retouch
-          </Link>
+      <nav className="flex flex-col items-end">
+        <p className={navTextClass}>
+          {isHome ? (
+            <NegativeText className={navTextClass}>
+              Product Photography / Retouching
+            </NegativeText>
+          ) : (
+            "Product Photography / Retouching"
+          )}
+        </p>
+        <div className="mt-1">
+          <InquiriesButton />
         </div>
-        <Link
-          href="/contacto"
-          className="mt-1 block font-serif text-sm italic text-foreground/80 transition-colors hover:text-foreground"
-        >
-          Contacto
-        </Link>
       </nav>
     </header>
   );

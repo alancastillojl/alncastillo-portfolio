@@ -1,10 +1,11 @@
-export type ProjectStatus = "Publicado" | "Próximamente" | "Borrador";
+export type ProjectStatus = "Published" | "Coming Soon" | "Draft";
 
 export type Project = {
   id: string;
   slug: string;
   name: string;
   categories: string[];
+  sections: string[];
   status: ProjectStatus;
   order: number;
   client?: string;

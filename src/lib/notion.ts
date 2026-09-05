@@ -10,18 +10,18 @@ const NOTION_TOKEN = process.env.NOTION_TOKEN;
 
 const notion = NOTION_TOKEN ? new Client({ auth: NOTION_TOKEN }) : null;
 
-// Datos de ejemplo para poder ver el diseño del sitio antes de conectar Notion.
-// En cuanto se configuren NOTION_TOKEN y NOTION_PROJECTS_DATABASE_ID, se ignoran.
+// Sample data so the site's design is visible before Notion is connected.
+// Ignored as soon as NOTION_TOKEN and NOTION_PROJECTS_DATABASE_ID are set.
 const SAMPLE_PROJECTS: Project[] = [
   {
     id: "sample-1",
-    slug: "campana-verano",
-    name: "Campaña Verano",
+    slug: "summer-campaign",
+    name: "Summer Campaign",
     categories: ["Product Photography"],
-    status: "Publicado",
+    sections: ["Personal"],
+    status: "Published",
     order: 1,
-    description:
-      "Sesión de fotografía de producto para catálogo de temporada.",
+    description: "Product photography session for the seasonal catalog.",
     cover: "/sample/campana-verano-1.svg",
     gallery: [
       "/sample/campana-verano-1.svg",
@@ -31,12 +31,13 @@ const SAMPLE_PROJECTS: Project[] = [
   },
   {
     id: "sample-2",
-    slug: "retoque-editorial",
-    name: "Retoque Editorial",
+    slug: "editorial-retouch",
+    name: "Editorial Retouch",
     categories: ["Retouch"],
-    status: "Publicado",
+    sections: ["Cosmetics"],
+    status: "Published",
     order: 2,
-    description: "Retoque digital para editorial de moda.",
+    description: "Digital retouching for a fashion editorial.",
     cover: "/sample/retoque-editorial-1.svg",
     gallery: [
       "/sample/retoque-editorial-1.svg",
@@ -45,12 +46,13 @@ const SAMPLE_PROJECTS: Project[] = [
   },
   {
     id: "sample-3",
-    slug: "linea-otono",
-    name: "Línea Otoño",
+    slug: "fall-line",
+    name: "Fall Line",
     categories: ["Product Photography", "Retouch"],
-    status: "Próximamente",
+    sections: ["Timepieces"],
+    status: "Coming Soon",
     order: 3,
-    description: "Próximo lanzamiento de temporada.",
+    description: "Upcoming seasonal release.",
     cover: "/sample/linea-otono-1.svg",
     gallery: ["/sample/linea-otono-1.svg"],
   },
@@ -109,17 +111,18 @@ function getFiles(page: PageObjectResponse, key: string): string[] {
 }
 
 function mapPage(page: PageObjectResponse): Project {
-  const gallery = getFiles(page, "Galería");
-  const coverFiles = getFiles(page, "Portada");
+  const gallery = getFiles(page, "Gallery");
+  const coverFiles = getFiles(page, "Cover");
   return {
     id: page.id,
     slug: getRichText(page, "Slug") || page.id,
-    name: getTitle(page, "Nombre"),
-    categories: getMultiSelect(page, "Categoría"),
-    status: (getSelect(page, "Estado") || "Borrador") as ProjectStatus,
-    order: getNumber(page, "Orden"),
-    client: getRichText(page, "Cliente") || undefined,
-    description: getRichText(page, "Descripción") || undefined,
+    name: getTitle(page, "Name"),
+    categories: getMultiSelect(page, "Category"),
+    sections: getMultiSelect(page, "Section"),
+    status: (getSelect(page, "Status") || "Draft") as ProjectStatus,
+    order: getNumber(page, "Order"),
+    client: getRichText(page, "Client") || undefined,
+    description: getRichText(page, "Description") || undefined,
     cover: coverFiles[0] ?? gallery[0] ?? null,
     gallery,
   };
@@ -150,11 +153,11 @@ async function queryAllProjects(): Promise<Project[]> {
     data_source_id: dataSourceId,
     filter: {
       or: [
-        { property: "Estado", select: { equals: "Publicado" } },
-        { property: "Estado", select: { equals: "Próximamente" } },
+        { property: "Status", select: { equals: "Published" } },
+        { property: "Status", select: { equals: "Coming Soon" } },
       ],
     },
-    sorts: [{ property: "Orden", direction: "ascending" }],
+    sorts: [{ property: "Order", direction: "ascending" }],
   };
 
   const results: PageObjectResponse[] = [];
@@ -196,10 +199,10 @@ export async function createContactLead(data: {
   await notion.pages.create({
     parent: { database_id: CONTACTS_DATABASE_ID },
     properties: {
-      Nombre: { title: [{ text: { content: data.name } }] },
+      Name: { title: [{ text: { content: data.name } }] },
       Email: { email: data.email },
-      Teléfono: { rich_text: [{ text: { content: data.phone ?? "" } }] },
-      Mensaje: { rich_text: [{ text: { content: data.message } }] },
+      Phone: { rich_text: [{ text: { content: data.phone ?? "" } }] },
+      Message: { rich_text: [{ text: { content: data.message } }] },
     },
   });
 }

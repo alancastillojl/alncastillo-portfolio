@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
 import { PageTransitions } from "@/components/transitions/PageTransitions";
 import { GoogleTag } from "@/components/analytics/GoogleTag";
 import { siteConfig } from "@/lib/site-config";
@@ -9,13 +10,7 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif-accent",
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic", "normal"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -43,13 +38,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${instrumentSerif.variable} h-full scroll-smooth antialiased`}
+      className={`${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <Header />
         <PageTransitions>
           <main className="flex-1">{children}</main>
         </PageTransitions>
+        <Footer />
         <GoogleTag />
       </body>
     </html>

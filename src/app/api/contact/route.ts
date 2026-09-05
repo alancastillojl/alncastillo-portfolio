@@ -17,14 +17,14 @@ export async function POST(request: Request) {
 
   if (!name || !email || !message) {
     return NextResponse.json(
-      { error: "Faltan campos requeridos." },
+      { error: "Missing required fields." },
       { status: 400 },
     );
   }
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
-    return NextResponse.json({ error: "Email inválido." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid email." }, { status: 400 });
   }
 
   await Promise.allSettled([
@@ -33,8 +33,8 @@ export async function POST(request: Request) {
           from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
           to: siteConfig.email,
           replyTo: email,
-          subject: `Nuevo contacto de ${name}`,
-          text: `Nombre: ${name}\nEmail: ${email}\nTeléfono: ${phone || "—"}\n\n${message}`,
+          subject: `New inquiry from ${name}`,
+          text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "—"}\n\n${message}`,
         })
       : Promise.resolve(),
     createContactLead({ name, email, phone, message }),

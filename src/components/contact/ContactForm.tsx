@@ -35,15 +35,16 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
   if (status === "success") {
     return (
       <p className="text-base">
-        Gracias por escribir — te responderé lo antes posible.
+        Thanks for reaching out — I&apos;ll get back to you as soon as
+        possible.
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-left">
       <label className="flex flex-col gap-1 text-sm">
-        Nombre
+        Name
         <input
           name="name"
           type="text"
@@ -61,7 +62,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
-        Teléfono (opcional)
+        Phone (optional)
         <input
           name="phone"
           type="tel"
@@ -69,7 +70,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
-        Mensaje
+        Message
         <textarea
           name="message"
           required
@@ -81,14 +82,15 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="mt-2 w-fit bg-foreground px-6 py-3 text-sm font-bold text-background transition-opacity hover:opacity-80 disabled:opacity-50"
+        className="mt-2 w-fit self-center bg-foreground px-6 py-3 text-sm font-bold text-background transition-opacity hover:opacity-80 disabled:opacity-50"
       >
-        {status === "loading" ? "Enviando…" : "Enviar"}
+        {status === "loading" ? "Sending…" : "Send"}
       </button>
 
       {status === "error" && (
         <p className="text-sm text-red-600">
-          Algo salió mal. Intenta de nuevo o escribe directo a {contactEmail}.
+          Something went wrong. Please try again or email me directly at{" "}
+          {contactEmail}.
         </p>
       )}
     </form>
