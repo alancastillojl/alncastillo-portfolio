@@ -49,7 +49,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           name="name"
           type="text"
           required
-          className="border-b border-foreground/20 bg-transparent py-2 outline-none focus:border-foreground"
+          className="border-b border-foreground/20 bg-transparent py-2 text-base outline-none focus:border-foreground"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
@@ -58,7 +58,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           name="email"
           type="email"
           required
-          className="border-b border-foreground/20 bg-transparent py-2 outline-none focus:border-foreground"
+          className="border-b border-foreground/20 bg-transparent py-2 text-base outline-none focus:border-foreground"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
@@ -66,7 +66,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         <input
           name="phone"
           type="tel"
-          className="border-b border-foreground/20 bg-transparent py-2 outline-none focus:border-foreground"
+          className="border-b border-foreground/20 bg-transparent py-2 text-base outline-none focus:border-foreground"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
@@ -75,7 +75,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           name="message"
           required
           rows={4}
-          className="border-b border-foreground/20 bg-transparent py-2 outline-none focus:border-foreground"
+          className="border-b border-foreground/20 bg-transparent py-2 text-base outline-none focus:border-foreground"
         />
       </label>
 
