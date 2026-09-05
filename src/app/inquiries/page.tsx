@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Inquiries",
   description: `Get in touch with ${siteConfig.name} to quote your next product photography or retouching project.`,
+  alternates: { canonical: "/inquiries" },
 };
 
 export default function InquiriesPage() {

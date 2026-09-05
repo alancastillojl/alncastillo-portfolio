@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site-config";
+
 function InstagramIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -23,21 +25,9 @@ function BehanceIcon() {
 }
 
 const SOCIALS = [
-  {
-    name: "Behance",
-    href: "https://www.behance.net/flucastillo",
-    icon: BehanceIcon,
-  },
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/alancstlllo/",
-    icon: InstagramIcon,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/alanccast/",
-    icon: LinkedInIcon,
-  },
+  { name: "Behance", href: siteConfig.social.behance, icon: BehanceIcon },
+  { name: "Instagram", href: siteConfig.social.instagram, icon: InstagramIcon },
+  { name: "LinkedIn", href: siteConfig.social.linkedin, icon: LinkedInIcon },
 ];
 
 export function SocialIcons() {

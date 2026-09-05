@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   openGraph: {
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
@@ -34,13 +36,40 @@ export const metadata: Metadata = {
   },
 };
 
+// Datos estructurados (schema.org) para que buscadores entiendan qué
+// servicios ofrece el estudio — no se muestra en pantalla, solo lo leen
+// los motores de búsqueda.
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: siteConfig.name,
+  description: siteConfig.description,
+  url: siteConfig.url,
+  image: `${siteConfig.url}/icon.png`,
+  email: siteConfig.email,
+  sameAs: Object.values(siteConfig.social),
+  areaServed: "Worldwide",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Photography services",
+    itemListElement: siteConfig.specialties.map((name) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name },
+    })),
+  },
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="es"
+      lang="en"
       className={`${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <Header />
         <PageTransitions>
           <main className="flex-1">{children}</main>
