@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { PageTransitions } from "@/components/transitions/PageTransitions";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </PageTransitions>
         <Footer />
         <GoogleTag />
+        <Analytics />
       </body>
     </html>
   );
